@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from datetime import date
+from django.utils import timezone
 from djrichtextfield.models import RichTextField
 from django.contrib.auth.models import User
 
@@ -23,6 +25,14 @@ COLORS = (
     ('DP', 'Dark Purple'),
 )
 
+MEALS = (
+    ('B', 'Breakfast'),
+    ('L', 'Lunch'),
+    ('D', 'Dinner'),
+    ('S', 'Snack'),
+)
+
+
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -32,31 +42,52 @@ class Category(models.Model):
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField('Tag Name', max_length=100)
     color = models.CharField(
+        'Color',
         max_length=2,
         choices=COLORS,
         default=COLORS[0][0]
     )
 
+    def __str__(self):
+        return f'{self.name} Tag'
+
 
 class Recipe(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField(max_length=500)
-    prep_time = models.IntegerField(help_text='minutes')
-    cook_time = models.IntegerField(help_text='minutes')
-    servings = models.IntegerField()
-    serving_size = models.CharField(max_length=10)
-    instructions = RichTextField()
-    ingredients = models.TextField(max_length=500)
+    name = models.CharField('Recipe Name', max_length=100)
+    description = models.TextField('Description', max_length=500)
+    prep_time = models.IntegerField('Prep Time (minutes)', help_text='minutes')
+    cook_time = models.IntegerField('Cook Time (minutes)', help_text='minutes')
+    servings = models.IntegerField('Number of Servings')
+    serving_size = models.CharField('Serving Size', max_length=10)
+    instructions = RichTextField('Instructions')
+    ingredients = models.TextField('Ingredients', max_length=500)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    tags = models.ManyToManyField(Tag, related_name='recipes')
+    tags = models.ManyToManyField(Tag, related_name='recipes', blank=True)
 
     def __str__(self):
         return f'{self.name} ({self.id})'
     
     def get_absolute_url(self):
         return reverse("recipe_detail", kwargs={'pk': self.id, "recipe_id": self.id})
+    
+
+class Meal(models.Model):
+    date = models.DateField('Meal Date')
+    meal = models.CharField(
+        max_length=1,
+        choices=MEALS,
+        default=MEALS[0][0]
+    )
+    name = f'{date} {meal}'
+    recipes = models.ManyToManyField(Recipe, related_name='meals', blank=True)
+
+    def __str__(self):
+        return f'{self.name}'
+    
+    def get_absolute_url(self):
+        return reverse("meal_detail", kwargs={'pk': self.id, "meal_id": self.id})
