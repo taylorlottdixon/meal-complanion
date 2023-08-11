@@ -1,4 +1,17 @@
-from django.shortcuts import render
+# import uuid
+# import boto3
+from django.shortcuts import render, redirect
+# import os
+
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Recipe, Meal, Tag, Category
+
+
 
 # Route for 'Home'
 def home(request):
@@ -10,19 +23,29 @@ def about(request):
 
 # Route for 'Recipes'
 def recipes_index(request):
-    recipes = recipe.objects.filter(user=request.user)
+    recipes = Recipe.objects.filter(user=request.user)
     return render(request, 'recipes/index.html', {'recipes': recipes})
 
 # Route for 'Recipe Details'
 def recipe_details(request, recipe_id):
-    recipe = recipe.object.get(id=recipe_id)
+    recipe = Recipe.object.get(id=recipe_id)
+    tag_ids = Recipe.tags.all().values_list('id')
+    tags_available = Tag.objects.exclude(id__in=tag_ids)
+    return render(request, 'recipes/detail.html', {
+        'recipe': recipe,
+        'tags': tags_available,
+    })
 
 # Route for 'Create Recipe'
-class NewRecipe():
+class NewRecipe(CreateView):
     model = Recipe
 
 # Route for 'Updating Recipe'
-class UpdateRecipe():
+class UpdateRecipe(UpdateView):
+    model = Recipe
+
+# Route for 'Deleting Recipe'
+class DeleteRecipe(DeleteView):
     model = Recipe
 
 # Route for 'Sign In'
@@ -44,11 +67,43 @@ def login(request):
 
 # Route for 'Tags'
 def tags_index(request):
-    tags = tag.object.filter(user=request.user)
+    tags = Tag.object.filter(user=request.user)
     return render(request, 'tags/index.html', {'tags': tags})
 
 # Route for 'Tags Details'
 def tags_details(request, tag_id):
-    tag = tag.object.get(id=tag_id)
+    tag = Tag.object.get(id=tag_id)
+
+# Associate a tag with a recipe
+def assoc_tag(request, recipe_id, tag_id):
+    Recipe.objects.get(id=recipe_id).tags.add(tag_id)
+    return redirect('detail', recipe_id=recipe_id)
+
+# Unassociate a tag from a recipe
+def unassoc_tag(request, recipe_id, tag_id):
+    Recipe.objects.get(id=recipe_id).tags.remove(tag_id)
+    return redirect('detail', recipe_id=recipe_id)
 
 # Route for 'Meals'
+def meals_index(request):
+    meals = Meal.objects.filter(user=request.user)
+    return render(request, 'meals/index.html', {'meals': meals})
+
+# Route for 'Meal Details'
+def meals_details(request, meal_id):
+    meal = Meal.object.get(id=meal_id)
+    return render(request, 'meals/detail.html', {
+        'meal': meal,
+    })
+
+# Route for 'Create Recipe'
+class NewMeal(CreateView):
+    model = Meal
+
+# Route for 'Updating Recipe'
+class UpdateMeal(UpdateView):
+    model = Meal
+
+# Route for 'Deleting Recipe'
+class DeleteMeal(DeleteView):
+    model = Meal
