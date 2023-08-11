@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 
 COLORS = (
-    ('Wi', 'White')
+    ('Wi', 'White'),
     ('LP', 'Light Purple'),
     ('LB', 'Light Blue'),
     ('Rd', "Red"),
