@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from .models import Recipe, Category
+from .forms import RecipeForm
+from django.conf import settings
 
 # Route for 'Home'
 class Home(LoginView):
