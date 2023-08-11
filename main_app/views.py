@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
 # Route for 'Home'
-class Home(LoginView):
-    template_name = 'home.html'
+def home(request):
+    return render(request, 'home.html')
 
 # Route for 'About'
 def about(request):
