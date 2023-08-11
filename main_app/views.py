@@ -23,11 +23,12 @@ def about(request):
 
 # Route for 'Recipes'
 def recipes_index(request):
-    recipes = Recipe.objects.filter(user=request.user)
+    recipes = Recipe.objects.all()
+    # recipes = Recipe.objects.filter(user=request.user)
     return render(request, 'recipes/index.html', {'recipes': recipes})
 
 # Route for 'Recipe Details'
-def recipe_details(request, recipe_id):
+def recipes_details(request, recipe_id):
     recipe = Recipe.object.get(id=recipe_id)
     tag_ids = Recipe.tags.all().values_list('id')
     tags_available = Tag.objects.exclude(id__in=tag_ids)
@@ -71,8 +72,20 @@ def tags_index(request):
     return render(request, 'tags/index.html', {'tags': tags})
 
 # Route for 'Tags Details'
-def tags_details(request, tag_id):
-    tag = Tag.object.get(id=tag_id)
+class TagDetail(DetailView):
+    model = Tag
+
+# Route for 'Create Tag'
+class NewTag(CreateView):
+    model = Tag
+
+# Route for 'Updating Tag'
+class UpdateTag(UpdateView):
+    model = Tag
+
+# Route for 'Deleting Tag'
+class DeleteTag(DeleteView):
+    model = Tag
 
 # Associate a tag with a recipe
 def assoc_tag(request, recipe_id, tag_id):
@@ -107,3 +120,22 @@ class UpdateMeal(UpdateView):
 # Route for 'Deleting Recipe'
 class DeleteMeal(DeleteView):
     model = Meal
+
+def signup(request):
+  error_message = ''
+  if request.method == 'POST':
+    # This is how to create a 'user' form object
+    # that includes the data from the browser
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+      # This will add the user to the database
+      user = form.save()
+      # This is how we log a user in via code
+      login(request, user)
+      return redirect('index')
+    else:
+      error_message = 'Invalid sign up - try again'
+  # A bad POST or a GET request, so render signup.html with an empty form
+  form = UserCreationForm()
+  context = {'form': form, 'error_message': error_message}
+  return render(request, 'registration/signup.html', context)
