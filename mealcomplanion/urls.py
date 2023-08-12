@@ -1,24 +1,14 @@
-"""
-URL configuration for mealcomplanion project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.contrib import admin
 from django.urls import path
-from django.conf.urls import include
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('djrichtextfield/', include('djrichtextfield.urls'))
+    path('', views.home, name='home'),
+    path('about/', views.about, name='about'),
+    path('recipes/', views.recipes_index, name='index'),
+    path('recipes/<int:recipe_id>/', views.recipes_detail, name='detail'),
+    path('recipes/create/', views.RecipeCreate.as_view(), name='recipes_create'),
+    path('recipes/<int:pk>/update/', views.RecipeUpdate.as_view(), name='recipes_update'),
+    path('tags/', views.tags_index, name='index'),
+    path('tags/<int:recipe_id>/', views.tags_detail, name='detail'),
+    path('accounts/login/', views.login, name='login'),
 ]
