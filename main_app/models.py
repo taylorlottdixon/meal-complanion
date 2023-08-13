@@ -57,8 +57,8 @@ class Tag(models.Model):
 class Recipe(models.Model):
     name = models.CharField('Recipe Name', max_length=100)
     description = models.TextField('Description', max_length=500)
-    prep_time = models.IntegerField('Prep Time (minutes)', help_text='minutes')
-    cook_time = models.IntegerField('Cook Time (minutes)', help_text='minutes')
+    prep_time = models.IntegerField('Prep Time', help_text='mins')
+    cook_time = models.IntegerField('Cook Time', help_text='mins')
     servings = models.IntegerField('Number of Servings')
     serving_size = models.CharField('Serving Size', max_length=10)
     instructions = RichTextField('Instructions')
