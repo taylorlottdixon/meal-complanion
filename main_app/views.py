@@ -31,8 +31,8 @@ def recipes_index(request):
 # Route for 'Recipe Details'
 @login_required
 def recipes_details(request, recipe_id):
-    recipe = Recipe.object.get(id=recipe_id)
-    tag_ids = Recipe.tags.all().values_list('id')
+    recipe = Recipe.objects.get(id=recipe_id)
+    tag_ids = recipe.tags.all().values_list('id')
     tags_available = Tag.objects.exclude(id__in=tag_ids)
     return render(request, 'recipes/detail.html', {
         'recipe': recipe,

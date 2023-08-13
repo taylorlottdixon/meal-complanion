@@ -22,7 +22,7 @@
               <li><a href="{% url 'recipes_create' %}">Add a Recipe</a></li>
               <li><a href="{% url 'recipes_index' %}">View All Recipes</a></li>
               <li><a href="{% url 'meals_index' %}">Meal Calendar</a></li>
-              <li><a href="{% url 'logout' %}">Log Out</a></li>
+              <li><a href="{% url 'logout' %}">Log Out ({{ user.username }})</a></li>
           {% else %}
               <li><a href="{% url 'signup' %}">Sign Up</a></li>    
               <li><a href="{% url 'login' %}">Log In</a></li>
