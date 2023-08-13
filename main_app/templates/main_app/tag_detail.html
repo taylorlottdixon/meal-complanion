@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Tag Details</h1>
+
+
+<div>
+    <span class="card-title">{{ tag.name }}</span>
+    <p>Color: {{ tag.color }}</p>
+</div>
+<div>
+    <a href="{% url 'tags_update' tag.id %}">Edit</a>
+    <a href="{% url 'tags_delete' tag.id %}">Delete</a>
+</div>
+
+{% endblock %}
