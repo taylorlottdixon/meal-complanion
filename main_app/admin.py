@@ -5,4 +5,4 @@ from .models import Recipe, Meal, Tag, Category
 admin.site.register(Recipe)
 admin.site.register(Meal)
 admin.site.register(Tag)
-admin.sote.register(Category)
+admin.site.register(Category)

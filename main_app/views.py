@@ -1,7 +1,8 @@
-# import uuid
-# import boto3
+import os
+import uuid
+import boto3
 from django.shortcuts import render, redirect
-# import os
+
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
@@ -22,12 +23,13 @@ def about(request):
     return render(request, 'about.html')
 
 # Route for 'Recipes'
+@login_required
 def recipes_index(request):
-    recipes = Recipe.objects.all()
-    # recipes = Recipe.objects.filter(user=request.user)
+    recipes = Recipe.objects.filter(user=request.user)
     return render(request, 'recipes/index.html', {'recipes': recipes})
 
 # Route for 'Recipe Details'
+@login_required
 def recipes_details(request, recipe_id):
     recipe = Recipe.object.get(id=recipe_id)
     tag_ids = Recipe.tags.all().values_list('id')
@@ -38,71 +40,66 @@ def recipes_details(request, recipe_id):
     })
 
 # Route for 'Create Recipe'
-class NewRecipe(CreateView):
+class NewRecipe(LoginRequiredMixin, CreateView):
     model = Recipe
+    fields = '__all__'
 
 # Route for 'Updating Recipe'
-class UpdateRecipe(UpdateView):
+class UpdateRecipe(LoginRequiredMixin, UpdateView):
     model = Recipe
+    fields = '__all__'
 
 # Route for 'Deleting Recipe'
-class DeleteRecipe(DeleteView):
+class DeleteRecipe(LoginRequiredMixin, DeleteView):
     model = Recipe
-
-# Route for 'Sign In'
-def login(request):
-    error_message = ''
-    if request.method == 'POST':
-        form = UserLogInForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('home')
-        else:    
-            error_message = 'Please try again'
-    form = UserLogInForm()
-    context = {'form': form, 'error_message': error_message}
-    return render(request, 'signup.html', context)
+    success_url = '/recipes'
 
 # Route for 'Adding Photo'
 
 # Route for 'Tags'
+@login_required
 def tags_index(request):
     tags = Tag.object.filter(user=request.user)
     return render(request, 'tags/index.html', {'tags': tags})
 
 # Route for 'Tags Details'
-class TagDetail(DetailView):
+class TagDetail(LoginRequiredMixin, DetailView):
     model = Tag
 
 # Route for 'Create Tag'
-class NewTag(CreateView):
+class NewTag(LoginRequiredMixin, CreateView):
     model = Tag
+    fields = '__all__'
 
 # Route for 'Updating Tag'
-class UpdateTag(UpdateView):
+class UpdateTag(LoginRequiredMixin, UpdateView):
     model = Tag
+    fields = '__all__'
 
 # Route for 'Deleting Tag'
-class DeleteTag(DeleteView):
+class DeleteTag(LoginRequiredMixin, DeleteView):
     model = Tag
 
 # Associate a tag with a recipe
+@login_required
 def assoc_tag(request, recipe_id, tag_id):
     Recipe.objects.get(id=recipe_id).tags.add(tag_id)
     return redirect('detail', recipe_id=recipe_id)
 
 # Unassociate a tag from a recipe
+@login_required
 def unassoc_tag(request, recipe_id, tag_id):
     Recipe.objects.get(id=recipe_id).tags.remove(tag_id)
     return redirect('detail', recipe_id=recipe_id)
 
 # Route for 'Meals'
+@login_required
 def meals_index(request):
     meals = Meal.objects.filter(user=request.user)
     return render(request, 'meals/index.html', {'meals': meals})
 
 # Route for 'Meal Details'
+@login_required
 def meals_details(request, meal_id):
     meal = Meal.object.get(id=meal_id)
     return render(request, 'meals/detail.html', {
@@ -110,27 +107,26 @@ def meals_details(request, meal_id):
     })
 
 # Route for 'Create Recipe'
-class NewMeal(CreateView):
+class NewMeal(LoginRequiredMixin, CreateView):
     model = Meal
+    fields = '__all__'
 
 # Route for 'Updating Recipe'
-class UpdateMeal(UpdateView):
+class UpdateMeal(LoginRequiredMixin, UpdateView):
     model = Meal
+    fields = '__all__'
 
 # Route for 'Deleting Recipe'
-class DeleteMeal(DeleteView):
+class DeleteMeal(LoginRequiredMixin, DeleteView):
     model = Meal
 
+# Route for user sign up
 def signup(request):
   error_message = ''
   if request.method == 'POST':
-    # This is how to create a 'user' form object
-    # that includes the data from the browser
     form = UserCreationForm(request.POST)
     if form.is_valid():
-      # This will add the user to the database
       user = form.save()
-      # This is how we log a user in via code
       login(request, user)
       return redirect('index')
     else:
