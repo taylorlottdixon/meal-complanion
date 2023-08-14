@@ -11,7 +11,7 @@
 
 <form action="" method="POST">
   {% csrf_token %}
-  <table>
+  <table class="form-tables">
     {{ form.as_table }}
   </table>
   <input type="submit" value="Submit!" class="btn">
