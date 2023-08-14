@@ -1,6 +1,6 @@
-# import os
-# import uuid
-# import boto3
+import os
+import uuid
+import boto3
 from django.shortcuts import render, redirect
 
 
