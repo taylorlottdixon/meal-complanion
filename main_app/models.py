@@ -75,7 +75,7 @@ class Recipe(models.Model):
         return f'{self.name} ({self.id})'
     
     def get_absolute_url(self):
-        return reverse("recipes_detail", kwargs={"recipe_id": self.id})
+        return reverse("recipes_detail", kwargs={'pk': self.id, "recipe_id": self.id})
 
     def get_total_time(self):
         return self.prep_time + self.cook_time

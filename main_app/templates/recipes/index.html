@@ -10,7 +10,7 @@
                 <p>Servings: {{ recipe.servings }} {{ recipe.serving_size }}</p>
                 <p>Total time: {{ recipe.get_total_time }} mins</p>
                 {% if recipe.tags.count %}
-                    {% for tag in recipe.tags %}
+                    {% for tag in recipe.tags.all %}
                     <span class="tag {{ tag.color }}">{{ tag.name }}</span>
                     {% endfor %}
                 {% endif %}

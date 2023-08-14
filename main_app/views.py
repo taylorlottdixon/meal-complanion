@@ -1,6 +1,6 @@
-import os
-import uuid
-import boto3
+# import os
+# import uuid
+# import boto3
 from django.shortcuts import render, redirect
 
 
@@ -11,6 +11,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Recipe, Meal, Tag, Category
+from .forms import TagForm
 
 
 
@@ -111,6 +112,7 @@ class TagDetail(LoginRequiredMixin, DetailView):
 class NewTag(LoginRequiredMixin, CreateView):
     model = Tag
     fields = '__all__'
+    success_url = '/recipes'
 
 # Route for 'Updating Tag'
 class UpdateTag(LoginRequiredMixin, UpdateView):
@@ -120,6 +122,15 @@ class UpdateTag(LoginRequiredMixin, UpdateView):
 # Route for 'Deleting Tag'
 class DeleteTag(LoginRequiredMixin, DeleteView):
     model = Tag
+
+# Add new tag from recipe detail
+@login_required
+def add_tag(request, recipe_id):
+  form = TagForm(request.POST)
+  if form.is_valid():
+    new_tag = form.save(commit=False)
+    new_tag.save()
+  return redirect('detail', recipe_id=recipe_id)
 
 # Associate a tag with a recipe
 @login_required
