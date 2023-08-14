@@ -93,3 +93,15 @@ body {
     text-shadow: none;
   }
 }
+
+.btn {
+  border-radius: 15px;
+  color: white;
+  background-color: lavender;
+  border: none;
+  top: 50%;
+}
+
+.table {
+  border: 2px solid black
+}
