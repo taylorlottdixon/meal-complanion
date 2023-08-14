@@ -43,19 +43,60 @@ def recipes_details(request, recipe_id):
 # Route for 'Create Recipe'
 class NewRecipe(LoginRequiredMixin, CreateView):
     model = Recipe
-    fields = '__all__'
+    fields = ['name', 'description', 'prep_time', 'cook_time', 'servings', 'serving_size', 'ingredients', 'instructions', 'category', 'tags']
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 # Route for 'Updating Recipe'
 class UpdateRecipe(LoginRequiredMixin, UpdateView):
     model = Recipe
-    fields = '__all__'
+    fields = ['name', 'description', 'prep_time', 'cook_time', 'servings', 'serving_size', 'ingredients', 'instructions', 'category', 'tags']
 
 # Route for 'Deleting Recipe'
 class DeleteRecipe(LoginRequiredMixin, DeleteView):
     model = Recipe
     success_url = '/recipes'
 
-# Route for 'Adding Photo'
+# Route for 'Create Category'
+class NewCategory(LoginRequiredMixin, CreateView):
+    model = Category
+    fields = ['name']
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+# Route for 'Listing Categories'
+class CategoryList(LoginRequiredMixin, ListView):
+  model = Category
+
+# Route for 'Updating Category'
+class UpdateCategory(LoginRequiredMixin, UpdateView):
+    model = Category
+    fields = ['name']
+
+# Route for 'Deleting Category'
+class DeleteCategory(LoginRequiredMixin, DeleteView):
+    model = Category
+    success_url = '/categories'
+
+# Route for 'Adding Photo' to recipe as owner
+def add_photo(request, recipe_id):
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            bucket = os.environ['S3_BUCKET']
+            s3.upload_fileobj(photo_file, bucket, key)
+            url = f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
+            Photo.objects.create(url=url, recipe_id=recipe_id)
+        except Exception as e:
+            print('An error occurred uploading file to S3')
+            print(e)
+    return redirect('recipe_detail', recipe_id=recipe_id)
 
 # Route for 'Tags'
 @login_required
@@ -120,7 +161,12 @@ def meals_details(request, meal_id):
 # Route for 'Create Recipe'
 class NewMeal(LoginRequiredMixin, CreateView):
     model = Meal
-    fields = '__all__'
+    fields = ['name']
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 
 # Route for 'Updating Recipe'
 class UpdateMeal(LoginRequiredMixin, UpdateView):
