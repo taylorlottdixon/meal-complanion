@@ -34,12 +34,12 @@ MEALS = (
 
 
 # Create your models here.
-class recipeegory(models.Model):
+class Category(models.Model):
     name = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'recipeegory {self.name}'
+        return f'Category {self.name}'
 
 
 class Tag(models.Model):
@@ -66,7 +66,7 @@ class Recipe(models.Model):
     instructions = RichTextField('Instructions')
     ingredients = models.TextField('Ingredients', max_length=500)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    recipeegory = models.ForeignKey(recipeegory, on_delete=models.CASCADE, blank=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag, related_name='recipes', blank=True)
