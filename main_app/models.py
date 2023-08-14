@@ -36,6 +36,7 @@ MEALS = (
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'Category {self.name}'
@@ -49,6 +50,7 @@ class Tag(models.Model):
         choices=COLORS,
         default=COLORS[0][0]
     )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.name} Tag'
@@ -57,8 +59,8 @@ class Tag(models.Model):
 class Recipe(models.Model):
     name = models.CharField('Recipe Name', max_length=100)
     description = models.TextField('Description', max_length=500)
-    prep_time = models.IntegerField('Prep Time (minutes)', help_text='minutes')
-    cook_time = models.IntegerField('Cook Time (minutes)', help_text='minutes')
+    prep_time = models.IntegerField('Prep Time', help_text='mins')
+    cook_time = models.IntegerField('Cook Time', help_text='mins')
     servings = models.IntegerField('Number of Servings')
     serving_size = models.CharField('Serving Size', max_length=10)
     instructions = RichTextField('Instructions')
@@ -73,8 +75,11 @@ class Recipe(models.Model):
         return f'{self.name} ({self.id})'
     
     def get_absolute_url(self):
-        return reverse("recipe_detail", kwargs={'pk': self.id, "recipe_id": self.id})
-    
+        return reverse("recipes_detail", kwargs={'pk': self.id, "recipe_id": self.id})
+
+    def get_total_time(self):
+        return self.prep_time + self.cook_time
+
 
 class Meal(models.Model):
     date = models.DateField('Meal Date')
@@ -85,6 +90,7 @@ class Meal(models.Model):
     )
     name = f'{date} {meal}'
     recipes = models.ManyToManyField(Recipe, related_name='meals', blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.name}'
