@@ -1,6 +1,6 @@
-# import os
-# import uuid
-# import boto3
+import os
+import uuid
+import boto3
 from django.shortcuts import render, redirect
 
 
@@ -10,7 +10,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Recipe, Meal, Tag, Category
+from .models import Recipe, Meal, Tag, Category, Photo
 from .forms import TagForm
 
 
@@ -185,7 +185,7 @@ def signup(request):
     if form.is_valid():
       user = form.save()
       login(request, user)
-      return redirect('index')
+      return redirect('recipes_index')
     else:
       error_message = 'Invalid sign up - try again'
   # A bad POST or a GET request, so render signup.html with an empty form
