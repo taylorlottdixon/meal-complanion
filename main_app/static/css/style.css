@@ -94,6 +94,22 @@ body {
   }
 }
 
+/* NAVBAR */
+
+.navbar {
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: bisque;
+  color: lavender;
+}
+
+.nav-links {
+  color: lavender;
+}
+
+/* FORMS */
 .btn {
   border-radius: 15px;
   color: white;
@@ -102,6 +118,11 @@ body {
   top: 50%;
 }
 
-.table {
-  border: 2px solid black
+.form-tables {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 10px rgba(0, 0,  0, 0.15);
 }
+
