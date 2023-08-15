@@ -32,8 +32,32 @@ MEALS = (
     ('S', 'Snack'),
 )
 
+SIZES = (
+    ('TB', 'Tbsp'),
+    ('TS', 'Tsp'),
+    ('CP', 'Cup'),
+    ('QT', 'Quart'),
+    ('PT', 'Pint'),
+    ('PC', 'Pinch'),
+    ('WH', 'Whole'),
+    ('SM', 'Small'),
+    ('MD', 'Medium'),
+    ('LG', 'Large'),
+    ('UN', 'Unit'),
+)
+
 
 # Create your models here.
+class Ingredient(models.Model):
+    name = models.CharField('Name', max_length=20)
+    serving = models.IntegerField('Amount')
+    serving_size = models.CharField(
+        max_length=2,
+        choices=SIZES,
+        default=SIZES[0][0]
+    )
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -64,18 +88,19 @@ class Recipe(models.Model):
     servings = models.IntegerField('Number of Servings')
     serving_size = models.CharField('Serving Size', max_length=10)
     instructions = RichTextField('Instructions')
-    ingredients = models.TextField('Ingredients', max_length=500)
+    ingredients = models.ManyToManyField(Ingredient, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag, related_name='recipes', blank=True)
+    favorite = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.name} ({self.id})'
     
     def get_absolute_url(self):
-        return reverse("recipes_detail", kwargs={'pk': self.id, "recipe_id": self.id})
+        return reverse("recipes_details", kwargs={"recipe_id": self.id})
 
     def get_total_time(self):
         return self.prep_time + self.cook_time
