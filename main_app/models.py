@@ -49,7 +49,7 @@ SIZES = (
 
 # Create your models here.
 class Ingredient(models.Model):
-    name = models.CharField
+    name = models.CharField('Name', max_length=20)
     serving = models.IntegerField('Amount')
     serving_size = models.CharField(
         max_length=2,

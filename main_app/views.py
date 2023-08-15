@@ -10,7 +10,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Recipe, Meal, Tag, Category, Photo
+from .models import Recipe, Meal, Tag, Category, Photo, Ingredient
 from .forms import TagForm
 
 
@@ -111,8 +111,12 @@ class TagDetail(LoginRequiredMixin, DetailView):
 # Route for 'Create Tag'
 class NewTag(LoginRequiredMixin, CreateView):
     model = Tag
-    fields = '__all__'
+    fields = ['name', 'color']
     success_url = '/recipes'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 # Route for 'Updating Tag'
 class UpdateTag(LoginRequiredMixin, UpdateView):
@@ -177,18 +181,46 @@ class UpdateMeal(LoginRequiredMixin, UpdateView):
 class DeleteMeal(LoginRequiredMixin, DeleteView):
     model = Meal
 
+
+# Route for 'Ingredients Details'
+class IngredientDetail(LoginRequiredMixin, DetailView):
+    model = Ingredient
+
+# Route for 'Create Ingredient'
+class NewIngredient(LoginRequiredMixin, CreateView):
+    model = Ingredient
+    fields = ['name', 'color']
+    success_url = '/recipes'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+# Route for 'Updating Ingredient'
+class UpdateIngredient(LoginRequiredMixin, UpdateView):
+    model = Ingredient
+    fields = '__all__'
+
+# Route for 'Deleting Ingredient'
+class DeleteTag(LoginRequiredMixin, DeleteView):
+    model = Ingredient
+
 # Route for user sign up
 def signup(request):
-  error_message = ''
-  if request.method == 'POST':
-    form = UserCreationForm(request.POST)
-    if form.is_valid():
-      user = form.save()
-      login(request, user)
-      return redirect('recipes_index')
+    error_message = ''
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+        return redirect('recipes_index')
     else:
       error_message = 'Invalid sign up - try again'
   # A bad POST or a GET request, so render signup.html with an empty form
-  form = UserCreationForm()
-  context = {'form': form, 'error_message': error_message}
-  return render(request, 'registration/signup.html', context)
+    form = UserCreationForm()
+    context = {'form': form, 'error_message': error_message}
+    return render(request, 'registration/signup.html', context)
+
+
+def profile(request):
+    return render(request, 'registration/profile.html')
