@@ -202,7 +202,7 @@ class UpdateIngredient(LoginRequiredMixin, UpdateView):
     fields = '__all__'
 
 # Route for 'Deleting Ingredient'
-class DeleteTag(LoginRequiredMixin, DeleteView):
+class DeleteIngredient(LoginRequiredMixin, DeleteView):
     model = Ingredient
 
 # Route for user sign up
