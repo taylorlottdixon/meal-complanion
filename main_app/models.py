@@ -57,6 +57,9 @@ class Ingredient(models.Model):
         default=SIZES[0][0]
     )
 
+    def __str__(self):
+        return f'{self.name}'
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
