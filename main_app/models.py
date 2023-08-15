@@ -88,7 +88,7 @@ class Recipe(models.Model):
     servings = models.IntegerField('Number of Servings')
     serving_size = models.CharField('Serving Size', max_length=10)
     instructions = RichTextField('Instructions')
-    ingredients = models.ManyToManyField(Ingredient)
+    ingredients = models.ManyToManyField(Ingredient, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -100,7 +100,7 @@ class Recipe(models.Model):
         return f'{self.name} ({self.id})'
     
     def get_absolute_url(self):
-        return reverse("recipes_detail", kwargs={'pk': self.id, "recipe_id": self.id})
+        return reverse("recipes_details", kwargs={"recipe_id": self.id})
 
     def get_total_time(self):
         return self.prep_time + self.cook_time
