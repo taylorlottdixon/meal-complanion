@@ -2,21 +2,21 @@
 {% block content %}
 
     <h1>Recipes</h1>
-    
-    {% for recipe in recipes %}
-        <a href="{% url 'recipes_details' recipe.id %}">
-            <div class="recipe-card">
-                <h2>{{ recipe.name }}</h2>
-                <p>Servings: {{ recipe.servings }}</p>
-                <p>Serving Size: {{ recipe.serving_size }}</p>
-                <p>Total Time: {{ recipe.get_total_time }} mins</p>
-                {% if recipe.tags.count %}
-                    {% for tag in recipe.tags.all %}
-                    <span class="tag {{ tag.color }}">{{ tag.name }}</span>
-                    {% endfor %}
-                {% endif %}
-            </div>
-        </a>
-    {% endfor %}
-    
+    <div class="recipe-container">
+        {% for recipe in recipes %}
+            <a href="{% url 'recipes_details' recipe.id %}">
+                <div class="recipe-card">
+                    <h2>{{ recipe.name }}</h2>
+                    <p>Servings: {{ recipe.servings }}</p>
+                    <p>Serving Size: {{ recipe.serving_size }}</p>
+                    <p>Total Time: {{ recipe.get_total_time }} mins</p>
+                    {% if recipe.tags.count %}
+                        {% for tag in recipe.tags.all %}
+                        <span class="tag {{ tag.color }}">{{ tag.name }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </a>
+        {% endfor %}
+    </div>
 {% endblock %}
