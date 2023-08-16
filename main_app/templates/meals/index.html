@@ -5,7 +5,7 @@
 
    
 
-    {% for meal in meals %}
+    {% for meal in meals.all %}
         <a href="{% url 'meal_detail' meal.id %}">
             <div>
                 <h3>{{ meal.name }}</h3>
@@ -19,3 +19,4 @@
             </div>
         </a>
     {% endfor %}
+{% endblock %}

@@ -159,7 +159,7 @@ def meals_index(request):
 @login_required
 def meals_details(request, pk):
     meal = Meal.objects.get(id=pk)
-    return render(request, 'meals/detail.html', {
+    return render(request, 'meals/details.html', {
         'meal': meal,
     })
 
