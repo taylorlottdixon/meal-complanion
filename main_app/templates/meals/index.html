@@ -2,21 +2,20 @@
 {% block content %}
 
     <h1>Meals</h1>
-
-   
-
-    {% for meal in meals.all %}
-        <a href="{% url 'meal_detail' meal.id %}">
-            <div>
-                <h3>{{ meal.name }}</h3>
-                <p>{{ meal.date }}</p>
-                <p>{{ recipe.name }}</p>
-                <p>{{ meal.meal }}</p>
-                <p>{{ meal.user }}</p>
-
-                <a href="{% url 'meals_update' meal.id %}">Edit</a>
-                <a href="{% url 'meals_delete' meal.id %}">Delete</a>
-            </div>
-        </a>
-    {% endfor %}
+    <div class="meal-container">
+        {% for meal in meals.all %}
+            <a href="{% url 'meals_details' meal.id %}">
+                <div class="meal-card">
+                    <h3>{{ meal.name }}</h3>
+                    <p>Date: {{ meal.date }}</p>
+                    <p>Recipe Name:  
+                        {% for recipe in meal.recipes.all %}
+                        {{ recipe.name }}
+                    {% endfor %}</p>
+                    <p>Meal: {{ meal.meal }}</p>
+                    <p>User: {{ meal.user }}</p>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
 {% endblock %}

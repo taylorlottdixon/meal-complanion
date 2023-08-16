@@ -295,6 +295,8 @@ header {
   flex-shrink: 0;
 }
 
+/* Recipe Details Page */
+
 .descript-recipe {
   display: flex;
   flex-direction: row;
@@ -347,11 +349,6 @@ header {
   padding-bottom: 20px;
 }
 
-/* p {
-  margin-bottom: 1px;
-  margin-top: 1px;
-} */
-
 div.descript-serve > p {
   margin-bottom: 1px;
   margin-top: 1px;
@@ -387,3 +384,107 @@ div.descript-time3 > p {
   margin-top: 1px;
 }
 
+
+/* Meals Page */
+
+.meal-container {
+  gap: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.meal-card {
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content: center;
+  padding: 10px 10px 10px 10px;
+  border: 2px solid black;
+  margin: 10px;
+  background-color: lavender;
+  box-shadow: 0 14px 18px 0 rgba(0, 0, 0, 0.2);
+  transform:
+    perspective(1000px)
+    translate3d(0px, 0px, -250px)
+    rotateX(27deg)
+    scale(0.9, 0.9);
+  border-radius: 20px;
+  border: 5px solid black;
+  box-shadow: 0 70px 40px -20px rgba(0, 0, 0, 0.2);
+  transition: 0.4s ease-in-out transform;
+
+  &:hover {
+    transform: translate3d(0px, 0px, -250px);
+  }
+}
+
+.meal-edit-del {
+  text-align: center;
+  margin: 5px 5px 5px 5px;
+}
+
+.meal-details {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: flex-start;
+  justify-content: center;
+  border: 2px solid black;
+  margin-top: 45px;
+  margin-left: 465px;
+  margin-right: 465px;
+  margin-bottom: 45px;
+}
+
+.mdetails-name{
+  display: flex;
+  flex-direction: column;
+}
+
+.mdetails-recipe{
+  display: flex;
+  flex-direction: column;
+}
+
+.mdetails-date{
+  display: flex;
+  flex-direction: column;
+}
+
+.mdetails-type{
+  display: flex;
+  flex-direction: column;
+}
+
+.mdetails-user{
+  display: flex;
+  flex-direction: column;
+}
+
+div.mdetails-name > p {
+  margin-bottom: 1px;
+  margin-top: 1px;
+}
+
+div.mdetails-recipe > p {
+  margin-bottom: 1px;
+  margin-top: 1px;
+}
+
+div.mdetails-date > p {
+  margin-bottom: 1px;
+  margin-top: 1px;
+}
+
+div.mdetails-type > p {
+  margin-bottom: 1px;
+  margin-top: 1px;
+}
+
+div.mdetails-user > p {
+  margin-bottom: 1px;
+  margin-top: 1px;
+}
