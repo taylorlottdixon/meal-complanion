@@ -124,7 +124,7 @@ class Meal(models.Model):
         return f'{self.date} {self.meal}'
     
     def get_absolute_url(self):
-        return reverse("meal_detail", kwargs={'pk': self.id})
+        return reverse("meals_details", kwargs={'pk': self.id})
     
     class Meta:
         ordering = ['-date']
