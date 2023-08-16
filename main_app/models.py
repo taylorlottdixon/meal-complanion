@@ -110,18 +110,18 @@ class Recipe(models.Model):
 
 
 class Meal(models.Model):
+    name = models.CharField('Name', max_length=20)
     date = models.DateField('Meal Date')
     meal = models.CharField(
         max_length=1,
         choices=MEALS,
         default=MEALS[0][0]
     )
-    name = f'{date} {meal}'
     recipes = models.ManyToManyField(Recipe, related_name='meals', blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.date} {self.meal}'
     
     def get_absolute_url(self):
         return reverse("meal_detail", kwargs={'pk': self.id, "meal_id": self.id})
