@@ -29,26 +29,39 @@
     </form>
     <button class="hidden">Done</button> {% endcomment %}
 <div class="descript-recipe">
-    <h3>Description:</h3>
-    <p>{{ recipe.description }}</p>
-    <h3>Prep Time:</h3>
-    <p>{{ recipe.prep_time }} mins</p>
-    <h3>Cook Time:</h3>
-    <p>{{ recipe.cook_time }} mins</p>
-    <h3>Total Time:</h3>
-    <p>{{ recipe.get_total_time }} mins</p>
-    <h3>Servings:</h3>
-    <p>Serves {{ recipe.servings }} people</p>
-    <p>Total servings: {{ recipe.serving_size }}</p>
-    <h3>Ingredients:</h3>
-    {% if recipe.ingredients.count %}
-        {% for ingredient in recipe.ingredients %}
-            <p>{{ingredient.serving}} {{ingredient.serving_size}} - {{ ingredient.name }}</p>
-        {% endfor %}
-    {% else %}
-        <p>No ingredients added</p>
-    {% endif %}
-    <h3>Instructions:</h3>
-    <p>{{ recipe.instructions }}</p>
-
+    <div class="descript-desc">
+        <h3>Description:</h3>
+        <p>{{ recipe.description }}</p>
+    </div>
+    <div class="descript-time1">
+        <h3>Prep Time:</h3>
+        <p>{{ recipe.prep_time }} mins</p>
+    </div>
+    <div class="descript-time2">
+        <h3>Cook Time:</h3>
+        <p>{{ recipe.cook_time }} mins</p>
+    </div>
+    <div class="descript-time3">
+        <h3>Total Time:</h3>
+        <p>{{ recipe.get_total_time }} mins</p>
+    </div>
+    <div class="descript-serve">
+        <h3>Servings:</h3>
+        <p>Serves {{ recipe.servings }} people</p>
+        <p>Total servings: {{ recipe.serving_size }}</p>
+    </div>
+    <div class="descript-ingredients">
+        <h3>Ingredients:</h3>
+        {% if recipe.ingredients.count %}
+            {% for ingredient in recipe.ingredients %}
+                <p>{{ingredient.serving}} {{ingredient.serving_size}} - {{ ingredient.name }}</p>
+            {% endfor %}
+        {% else %}
+            <p>No ingredients added</p>
+        {% endif %}
+    </div>
+    <div class="descript-instruct">
+        <h3>Instructions:</h3>
+        <p>{{ recipe.instructions }}</p>
+    </div>
 {% endblock %}
