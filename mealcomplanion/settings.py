@@ -156,7 +156,7 @@ if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 LOGIN_REDIRECT_URL = '/recipes/'
-LOGOUT_REDIRECT_URL = 'login/'
+LOGOUT_REDIRECT_URL = '/'
 
 DJRICHTEXTFIELD_CONFIG = {
     'js': ['//cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js'],
