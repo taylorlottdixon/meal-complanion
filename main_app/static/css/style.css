@@ -176,6 +176,7 @@ html {
 
 h1 {
   text-align: center;
+  text-decoration: underline;
 }
 
 .recipe-card {
@@ -185,8 +186,9 @@ h1 {
   justify-content: center;
   padding: 10px 10px 10px 10px;
   border: 2px solid black;
-  margin: 5px;
-  background-color: white;
+  margin: 10px;
+  background-color: lavender;
+  box-shadow: 0 14px 18px 0 rgba(0, 0, 0, 0.2);
 }
 
 .recipe-container {
@@ -270,4 +272,11 @@ footer {
 
 header {
   flex-shrink: 0;
+}
+
+.descript-recipe {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
