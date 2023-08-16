@@ -15,6 +15,7 @@ from .forms import TagForm, MealForm
 
 
 
+
 # Route for 'Home'
 def home(request):
     return render(request, 'home.html')
@@ -182,6 +183,30 @@ class UpdateMeal(LoginRequiredMixin, UpdateView):
 class DeleteMeal(LoginRequiredMixin, DeleteView):
     model = Meal
     success_url = '/meals'
+
+
+# Route for 'Ingredients Details'
+class IngredientDetail(LoginRequiredMixin, DetailView):
+    model = Ingredient
+
+# Route for 'Create Ingredient'
+class NewIngredient(LoginRequiredMixin, CreateView):
+    model = Ingredient
+    fields = ['name', 'color']
+    success_url = '/recipes'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+# Route for 'Updating Ingredient'
+class UpdateIngredient(LoginRequiredMixin, UpdateView):
+    model = Ingredient
+    fields = '__all__'
+
+# Route for 'Deleting Ingredient'
+class DeleteIngredient(LoginRequiredMixin, DeleteView):
+    model = Ingredient
 
 
 # Route for 'Ingredients Details'

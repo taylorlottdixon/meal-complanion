@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <a href="{% url 'recipes_update' recipe.id %}">Edit</a>
-    <a href="{% url 'recipes_delete' recipe.id %}">Delete</a>
-
     <h1>{{ recipe.name }}</h1>
+    <div class="edit-del">
+    <a href="{% url 'recipes_update' recipe.id %}" class="edit">Edit</a>
+    <a href="{% url 'recipes_delete' recipe.id %}" class="delete">Delete</a>
+    </div>
+
 
     {% comment %} {% if recipe.tags.count %}
         {% for tag in recipe.tags.all %}
@@ -26,7 +28,7 @@
         <button type="submit" class="btn hidden">New Tag</button>
     </form>
     <button class="hidden">Done</button> {% endcomment %}
-
+<div class="descript-recipe">
     <h3>Description:</h3>
     <p>{{ recipe.description }}</p>
     <h3>Prep Time:</h3>
@@ -36,10 +38,17 @@
     <h3>Total Time:</h3>
     <p>{{ recipe.get_total_time }} mins</p>
     <h3>Servings:</h3>
-    <p>{{ recipe.servings }} {{ recipe.serving_size }}</p>
+    <p>Serves {{ recipe.servings }} people</p>
+    <p>Total servings: {{ recipe.serving_size }}</p>
     <h3>Ingredients:</h3>
-    <p>{{ recipe.ingredients }}</p>
+    {% if recipe.ingredients.count %}
+        {% for ingredient in recipe.ingredients %}
+            <p>{{ingredient.serving}} {{ingredient.serving_size}} - {{ ingredient.name }}</p>
+        {% endfor %}
+    {% else %}
+        <p>No ingredients added</p>
+    {% endif %}
     <h3>Instructions:</h3>
     <p>{{ recipe.instructions }}</p>
-    
+
 {% endblock %}
