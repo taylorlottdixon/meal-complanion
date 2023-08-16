@@ -5,7 +5,6 @@ distlib==0.3.7
 dj-database-url==2.1.0
 Django==4.2.4
 django-admin==2.0.2
-django-binary-database-files==1.0.10
 django-ckeditor==6.7.0
 django-environ==0.10.0
 django-excel-response2==3.0.6
