@@ -49,7 +49,7 @@ SIZES = (
 
 # Create your models here.
 class Ingredient(models.Model):
-    name = models.CharField
+    name = models.CharField('Name', max_length=20)
     serving = models.IntegerField('Amount')
     serving_size = models.CharField(
         max_length=2,
@@ -83,12 +83,12 @@ class Tag(models.Model):
 class Recipe(models.Model):
     name = models.CharField('Recipe Name', max_length=100)
     description = models.TextField('Description', max_length=500)
-    prep_time = models.IntegerField('Prep Time', help_text='mins')
-    cook_time = models.IntegerField('Cook Time', help_text='mins')
+    prep_time = models.IntegerField('Prep Time (mins)')
+    cook_time = models.IntegerField('Cook Time (mins)')
     servings = models.IntegerField('Number of Servings')
     serving_size = models.CharField('Serving Size', max_length=10)
     instructions = RichTextField('Instructions')
-    ingredients = models.ManyToManyField(Ingredient)
+    ingredients = models.ManyToManyField(Ingredient, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -97,32 +97,35 @@ class Recipe(models.Model):
     favorite = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.name} ({self.id})'
+        return f'{self.name}'
     
     def get_absolute_url(self):
-        return reverse("recipes_detail", kwargs={'pk': self.id, "recipe_id": self.id})
+        return reverse("recipes_details", kwargs={"recipe_id": self.id})
 
     def get_total_time(self):
         return self.prep_time + self.cook_time
 
 
 class Meal(models.Model):
+    name = models.CharField('Meal Name', max_length=20)
+    # recipe = models.CharField('Recipe', max_length=20)
     date = models.DateField('Meal Date')
     meal = models.CharField(
         max_length=1,
         choices=MEALS,
         default=MEALS[0][0]
     )
-    name = f'{date} {meal}'
     recipes = models.ManyToManyField(Recipe, related_name='meals', blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.date} {self.meal}'
     
     def get_absolute_url(self):
-        return reverse("meal_detail", kwargs={'pk': self.id, "meal_id": self.id})
+        return reverse("meal_detail", kwargs={'pk': self.id})
     
+    class Meta:
+        ordering = ['-date']
 
 class Photo(models.Model):
   url = models.CharField(max_length=200)

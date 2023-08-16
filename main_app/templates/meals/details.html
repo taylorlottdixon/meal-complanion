@@ -1,6 +1,23 @@
+{% endblock %}
+
 {% extends 'base.html' %}
 {% block content %}
 
-    <h1>{{ meal.name }}</h1>
+
+    <h3>Meal Name:</h3>
+    <p>{{ meal.name }}</p>
+
+    <h3>Recipe :</h3>
+    <p>{{ recipe.name }}</p>
+
+    <h3>Meal Date:</h3>
+    <p>{{ meal.date }}
+
+    <h3>Meal Type:</h3>
+    <p>{{ meal.meal }}</p>
+
+    <h3>User</h3>
+    <p>{{ meal.user }}</p>
+
     
 {% endblock %}
