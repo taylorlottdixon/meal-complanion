@@ -155,6 +155,9 @@ if not DEBUG:
     # and creating unique names for each version so they can safely be cached forever.
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+LOGIN_REDIRECT_URL = '/recipes/'
+LOGOUT_REDIRECT_URL = 'login/'
+
 DJRICHTEXTFIELD_CONFIG = {
     'js': ['//cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js'],
     'init_template': 'djrichtextfield/init/tinymce.js',
