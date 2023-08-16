@@ -120,7 +120,7 @@ a {
   display: flex;
 }
 
-ul {
+.right {
   display: flex;
   flex-direction: row;
   list-style: none;
@@ -156,6 +156,12 @@ form {
   place-items: center;
 }
 
+.loginform > p {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
 .form-tables {
   border-collapse: collapse;
   font-family: sans-serif;
@@ -165,7 +171,7 @@ form {
   justify-content: space-evenly;
 }
 
-input[type="text"], input[type="number"], textarea {
+input[type="text"], input[type="number"], input[type="password"], textarea {
   padding: 10px 20px;
   width: 100%;
   margin: 10px;
@@ -488,3 +494,29 @@ div.mdetails-user > p {
   margin-bottom: 1px;
   margin-top: 1px;
 }
+
+
+div.signup > form > p {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+div.signup >* ul {
+  display: flex;
+  list-style-type: none;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-grow: 1;
+  font-size: 15px;
+  text-align: left;
+  width: 54%;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.error {
+  text-align: center;
+}
+
