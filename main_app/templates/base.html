@@ -10,31 +10,33 @@
 
 </head>
 <body>
-  <header>
-    <nav class="navbar">
-      <div>
-        <ul class="right">
-          <li><a href="{% url 'home' %}">Home</a></li>
-          <li><a href="{% url 'about' %}">About</a></li>
-          {% if user.is_authenticated %}
-              <li><a href="{% url 'recipes_create' %}">Add a Recipe</a></li>
-              <li><a href="{% url 'recipes_index' %}">View All Recipes</a></li>
-              <li><a href="{% url 'meals_index' %}">Meal Calendar</a></li>
-              <li><a href="{% url 'logout' %}">Log Out ({{ user.username }})</a></li>
-          {% else %}
-              <li><a href="{% url 'signup' %}">Sign Up</a></li>    
-              <li><a href="{% url 'login' %}">Log In</a></li>
-          {% endif %}
-        </ul>
-      </div>
-    </nav>
-  </header>
-  <main>
-    {% block content %}
-    {% endblock %}
-  </main>
-  <footer>
-    <div>All Rights Reserved, &copy; 2023 Meal ComPLANion &nbsp;</div>
-  </footer>
+  <div class="wrapper">
+    <header>
+      <nav class="navbar">
+        <div>
+          <ul class="right">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'recipes_create' %}">Add a Recipe</a></li>
+                <li><a href="{% url 'recipes_index' %}">View All Recipes</a></li>
+                <li><a href="{% url 'meals_index' %}">Meal Calendar</a></li>
+                <li><a href="{% url 'logout' %}">Log Out ({{ user.username }})</a></li>
+            {% else %}
+                <li><a href="{% url 'signup' %}">Sign Up</a></li>    
+                <li><a href="{% url 'login' %}">Log In</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <main>
+      {% block content %}
+      {% endblock %}
+    </main>
+    <footer>
+      <div>All Rights Reserved, &copy; 2023 Meal ComPLANion &nbsp;</div>
+    </footer>
+</wrapper>
 </body>
 </html>
