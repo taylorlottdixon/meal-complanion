@@ -12,7 +12,7 @@ urlpatterns = [
     path('recipes/<int:recipe_id>/add_tag/', views.add_tag, name='add_tag'),
     path('recipes/<int:recipe_id>/assoc_tag/<int:tag_id>/', views.assoc_tag, name='assoc_tag'),
     path('meals/', views.meals_index, name='meals_index'),
-    path('meals/<int:meal_id>/', views.meals_details, name='detail'),
+    path('meals/<int:pk>/', views.meals_details, name='meals_details'),
     path('meals/create/', views.NewMeal.as_view(), name='meals_create'),
     path('meals/<int:pk>/update/', views.UpdateMeal.as_view(), name='meals_update'),
     path('meals/<int:pk>/delete/', views.DeleteMeal.as_view(), name='meals_delete'),
@@ -30,3 +30,4 @@ urlpatterns = [
     path('accounts/signup/', views.signup, name='signup'),
     path('accounts/profile/', views.profile, name='profile'),
 ]
+

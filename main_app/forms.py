@@ -1,16 +1,14 @@
-from django.forms import ModelForm
-from .models import Tag
+from django.forms import ModelForm, DateInput
+from .models import Tag, Meal
 
 class TagForm(ModelForm):
   class Meta:
     model = Tag
     fields = '__all__'
 
-# class IngredientForm(ModelForm):
-#     Ingredients.objects.all(),
-#     widget=admin.widgets.RelatedFieldWidgetWrapper(
-#            widget=admin.widgets.FilteredSelectMultiple('Ingredients', False),
-#            rel=Post.ingredients.rel,
-#            admin_site=admin.site
-#         ),
-#     required=False,
+class MealForm(ModelForm):
+  class Meta:
+    model = Meal
+    fields = '__all__'
+    widgets = { "date": DateInput(format=('%m/%d/%Y'), attrs={"type": "date"})}
+
