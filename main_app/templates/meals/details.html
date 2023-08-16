@@ -26,10 +26,26 @@
     </div>
 </div>
 
+<<<<<<< Updated upstream
 <div class="meal-edit-del">
     <a href="{% url 'meals_update' meal.id %}" class="edit">Edit</a>
     <a href="{% url 'meals_delete' meal.id %}" class="delete">Delete</a>
 </div>
+=======
+    <h3>Meal Name:</h3>
+    <p>{{ meal.name }}</p>
+
+    <h3>Recipes:</h3>
+    {% for recipe in meal.recipes.all %}
+        <a href="{% url 'recipes_details' recipe.id %}">{{ recipe.name }}</a>
+    {% endfor %}
+
+    <h3>Meal Date:</h3>
+    <p>{{ meal.date }}
+
+    <h3>Meal Type:</h3>
+    <p>{{ meal.meal }}</p>
+>>>>>>> Stashed changes
 
     
 {% endblock %}
