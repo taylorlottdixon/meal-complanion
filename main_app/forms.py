@@ -11,3 +11,4 @@ class MealForm(ModelForm):
     model = Meal
     fields = '__all__'
     widgets = { "date": DateInput(format=('%m/%d/%Y'), attrs={"type": "date"})}
+
