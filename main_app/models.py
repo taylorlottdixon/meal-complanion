@@ -100,7 +100,7 @@ class Recipe(models.Model):
     favorite = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.name} ({self.id})'
+        return f'{self.name}'
     
     def get_absolute_url(self):
         return reverse("recipes_details", kwargs={"recipe_id": self.id})
@@ -110,7 +110,7 @@ class Recipe(models.Model):
 
 
 class Meal(models.Model):
-    name = models.CharField('Name', max_length=20)
+    name = models.CharField('Meal Name', max_length=50)
     date = models.DateField('Meal Date')
     meal = models.CharField(
         max_length=1,
@@ -124,8 +124,10 @@ class Meal(models.Model):
         return f'{self.date} {self.meal}'
     
     def get_absolute_url(self):
-        return reverse("meal_detail", kwargs={'pk': self.id, "meal_id": self.id})
+        return reverse("meal_detail", kwargs={'pk': self.id})
     
+    class Meta:
+        ordering = ['-date']
 
 class Photo(models.Model):
   url = models.CharField(max_length=200)

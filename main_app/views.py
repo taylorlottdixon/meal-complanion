@@ -11,7 +11,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Recipe, Meal, Tag, Category, Photo, Ingredient
-from .forms import TagForm
+from .forms import TagForm, MealForm
+
 
 
 
@@ -156,8 +157,8 @@ def meals_index(request):
 
 # Route for 'Meal Details'
 @login_required
-def meals_details(request, meal_id):
-    meal = Meal.object.get(id=meal_id)
+def meals_details(request, pk):
+    meal = Meal.objects.get(id=pk)
     return render(request, 'meals/detail.html', {
         'meal': meal,
     })
@@ -165,7 +166,8 @@ def meals_details(request, meal_id):
 # Route for 'Create Recipe'
 class NewMeal(LoginRequiredMixin, CreateView):
     model = Meal
-    fields = ['name']
+    # fields = '__all__'
+    form_class = MealForm
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -180,6 +182,31 @@ class UpdateMeal(LoginRequiredMixin, UpdateView):
 # Route for 'Deleting Recipe'
 class DeleteMeal(LoginRequiredMixin, DeleteView):
     model = Meal
+    success_url = '/meals'
+
+
+# Route for 'Ingredients Details'
+class IngredientDetail(LoginRequiredMixin, DetailView):
+    model = Ingredient
+
+# Route for 'Create Ingredient'
+class NewIngredient(LoginRequiredMixin, CreateView):
+    model = Ingredient
+    fields = ['name', 'color']
+    success_url = '/recipes'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+# Route for 'Updating Ingredient'
+class UpdateIngredient(LoginRequiredMixin, UpdateView):
+    model = Ingredient
+    fields = '__all__'
+
+# Route for 'Deleting Ingredient'
+class DeleteIngredient(LoginRequiredMixin, DeleteView):
+    model = Ingredient
 
 
 # Route for 'Ingredients Details'
