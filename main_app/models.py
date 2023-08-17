@@ -47,18 +47,18 @@ SIZES = (
 )
 
 
-# Create your models here.
-class Ingredient(models.Model):
-    name = models.CharField('Name', max_length=20)
-    serving = models.IntegerField('Amount')
-    serving_size = models.CharField(
-        max_length=2,
-        choices=SIZES,
-        default=SIZES[0][0]
-    )
+# # Create your models here.
+# class Ingredient(models.Model):
+#     name = models.CharField('Name', max_length=20)
+#     serving = models.IntegerField('Amount')
+#     serving_size = models.CharField(
+#         max_length=2,
+#         choices=SIZES,
+#         default=SIZES[0][0]
+#     )
 
-    def __str__(self):
-        return f'{self.name}'
+#     def __str__(self):
+#         return f'{self.name}'
 
 
 class Category(models.Model):
@@ -69,18 +69,18 @@ class Category(models.Model):
         return f'Category {self.name}'
 
 
-class Tag(models.Model):
-    name = models.CharField('Tag Name', max_length=100)
-    color = models.CharField(
-        'Color',
-        max_length=2,
-        choices=COLORS,
-        default=COLORS[0][0]
-    )
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+# class Tag(models.Model):
+#     name = models.CharField('Tag Name', max_length=100)
+#     color = models.CharField(
+#         'Color',
+#         max_length=2,
+#         choices=COLORS,
+#         default=COLORS[0][0]
+#     )
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f'{self.name} Tag'
+#     def __str__(self):
+#         return f'{self.name} Tag'
 
 
 class Recipe(models.Model):
@@ -91,12 +91,12 @@ class Recipe(models.Model):
     servings = models.IntegerField('Number of Servings')
     serving_size = models.CharField('Serving Size', max_length=10)
     instructions = RichTextField('Instructions')
-    ingredients = models.ManyToManyField(Ingredient, blank=True)
+    ingredients = models.TextField('Description', max_length=500)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    tags = models.ManyToManyField(Tag, related_name='recipes', blank=True)
+    # tags = models.ManyToManyField(Tag, related_name='recipes', blank=True)
     favorite = models.BooleanField(default=False)
 
     def __str__(self):
