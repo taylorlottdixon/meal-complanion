@@ -44,7 +44,7 @@ def recipes_details(request, recipe_id):
 # Route for 'Create Recipe'
 class NewRecipe(LoginRequiredMixin, CreateView):
     model = Recipe
-    fields = ['name', 'description', 'prep_time', 'cook_time', 'servings', 'serving_size', 'ingredients', 'instructions', 'category', 'tags']
+    fields = ['name', 'description', 'prep_time', 'cook_time', 'servings', 'serving_size', 'ingredients', 'instructions', 'category']
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -53,7 +53,7 @@ class NewRecipe(LoginRequiredMixin, CreateView):
 # Route for 'Updating Recipe'
 class UpdateRecipe(LoginRequiredMixin, UpdateView):
     model = Recipe
-    fields = ['name', 'description', 'prep_time', 'cook_time', 'servings', 'serving_size', 'ingredients', 'instructions', 'category', 'tags']
+    fields = ['name', 'description', 'prep_time', 'cook_time', 'servings', 'serving_size', 'ingredients', 'instructions', 'category']
 
 # Route for 'Deleting Recipe'
 class DeleteRecipe(LoginRequiredMixin, DeleteView):
