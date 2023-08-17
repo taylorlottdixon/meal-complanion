@@ -8,26 +8,6 @@
     </div>
 
 
-    {% comment %} {% if recipe.tags.count %}
-        {% for tag in recipe.tags.all %}
-            <span class="tag {{ tag.color }}">{{ tag.name }}</span>
-        {% endfor %}
-    {% endif %}
-    <button>Add Tags</button>
-    {% if recipe.tags_available.count %}
-        {% for tag in recipe.tags_available.all %}
-            <form action="{% url 'assoc_tag' recipe.id tag.id %}" method="POST">
-                {% csrf_token %}
-                <button type="submit" class="btn hidden"><span class="tag {{ tag.color }}">{{ tag.name }}</span></button>
-            </form>
-        {% endfor %}
-    {% endif %}
-    <form action="{% url 'add_tag' recipe.id %}" method="POST">
-        {% csrf_token %}
-        {{ tag_form.as_p }}
-        <button type="submit" class="btn hidden">New Tag</button>
-    </form>
-    <button class="hidden">Done</button> {% endcomment %}
 <div class="descript-recipe">
     <div class="descript-desc">
         <h3>Description:</h3>
