@@ -2,28 +2,8 @@ from django.db import models
 from django.urls import reverse
 from datetime import date
 from django.utils import timezone
-from djrichtextfield.models import RichTextField
 from django.contrib.auth.models import User
 
-
-COLORS = (
-    ('Wi', 'White'),
-    ('LP', 'Light Purple'),
-    ('LB', 'Light Blue'),
-    ('Rd', "Red"),
-    ('Yw', 'Yellow'),
-    ('Gn', 'Green'),
-    ('Or', 'Orange'),
-    ('Pk', 'Pink'),
-    ('Ba', 'Black'),
-    ('Tl', 'Teal'),
-    ('LG', 'Light Grey'),
-    ('DG', 'Dark Grey'),
-    ('DB', 'Dark Blue'),
-    ('Mr', 'Maroon'),
-    ('Gl', 'Gold'),
-    ('DP', 'Dark Purple'),
-)
 
 MEALS = (
     ('B', 'Breakfast'),
@@ -31,56 +11,6 @@ MEALS = (
     ('D', 'Dinner'),
     ('S', 'Snack'),
 )
-
-SIZES = (
-    ('TB', 'Tbsp'),
-    ('TS', 'Tsp'),
-    ('CP', 'Cup'),
-    ('QT', 'Quart'),
-    ('PT', 'Pint'),
-    ('PC', 'Pinch'),
-    ('WH', 'Whole'),
-    ('SM', 'Small'),
-    ('MD', 'Medium'),
-    ('LG', 'Large'),
-    ('UN', 'Unit'),
-)
-
-
-# # Create your models here.
-# class Ingredient(models.Model):
-#     name = models.CharField('Name', max_length=20)
-#     serving = models.IntegerField('Amount')
-#     serving_size = models.CharField(
-#         max_length=2,
-#         choices=SIZES,
-#         default=SIZES[0][0]
-#     )
-
-#     def __str__(self):
-#         return f'{self.name}'
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=100)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'Category {self.name}'
-
-
-# class Tag(models.Model):
-#     name = models.CharField('Tag Name', max_length=100)
-#     color = models.CharField(
-#         'Color',
-#         max_length=2,
-#         choices=COLORS,
-#         default=COLORS[0][0]
-#     )
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#         return f'{self.name} Tag'
 
 
 class Recipe(models.Model):
@@ -90,14 +20,11 @@ class Recipe(models.Model):
     cook_time = models.IntegerField('Cook Time (mins)')
     servings = models.IntegerField('Number of Servings')
     serving_size = models.CharField('Serving Size', max_length=10)
-    instructions = RichTextField('Instructions')
+    instructions = models.TextField('Instructions')
     ingredients = models.TextField('Ingredients', max_length=500)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # tags = models.ManyToManyField(Tag, related_name='recipes', blank=True)
-    favorite = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.name}'
@@ -117,7 +44,11 @@ class Meal(models.Model):
         choices=MEALS,
         default=MEALS[0][0]
     )
-    recipes = models.ManyToManyField(Recipe, related_name='meals', blank=True)
+    recipes = models.ManyToManyField(
+        Recipe, 
+        related_name='meals', 
+        blank=True, 
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -128,10 +59,3 @@ class Meal(models.Model):
     
     class Meta:
         ordering = ['-date']
-
-class Photo(models.Model):
-  url = models.CharField(max_length=200)
-  recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-
-  def __str__(self):
-    return f"Photo for recipe_id: {self.recipe_id} @{self.url}"

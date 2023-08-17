@@ -10,7 +10,7 @@ from .models import Meal
 class MealForm(ModelForm):
   class Meta:
     model = Meal
-    fields = '__all__'
+    fields = ['name', 'date', 'meal', 'recipes']
     widgets = { "date": DateInput(format=('%m/%d/%Y'), attrs={"type": "date"})}
 
 # class RecipeForm(ModelForm):

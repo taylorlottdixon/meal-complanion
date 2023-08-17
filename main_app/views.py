@@ -10,7 +10,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Recipe, Meal, Category, Photo
+from .models import Recipe, Meal
 from .forms import MealForm
 
 
@@ -41,7 +41,7 @@ def recipes_details(request, recipe_id):
 # Route for 'Create Recipe'
 class NewRecipe(LoginRequiredMixin, CreateView):
     model = Recipe
-    fields = ['name', 'description', 'prep_time', 'cook_time', 'servings', 'serving_size', 'ingredients', 'instructions', 'category']
+    fields = ['name', 'description', 'prep_time', 'cook_time', 'servings', 'serving_size', 'ingredients', 'instructions']
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -50,51 +50,12 @@ class NewRecipe(LoginRequiredMixin, CreateView):
 # Route for 'Updating Recipe'
 class UpdateRecipe(LoginRequiredMixin, UpdateView):
     model = Recipe
-    fields = ['name', 'description', 'prep_time', 'cook_time', 'servings', 'serving_size', 'ingredients', 'instructions', 'category']
+    fields = ['name', 'description', 'prep_time', 'cook_time', 'servings', 'serving_size', 'ingredients', 'instructions']
 
 # Route for 'Deleting Recipe'
 class DeleteRecipe(LoginRequiredMixin, DeleteView):
     model = Recipe
     success_url = '/recipes'
-
-# Route for 'Create Category'
-class NewCategory(LoginRequiredMixin, CreateView):
-    model = Category
-    fields = ['name']
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-
-# Route for 'Listing Categories'
-class CategoryList(LoginRequiredMixin, ListView):
-  model = Category
-
-# Route for 'Updating Category'
-class UpdateCategory(LoginRequiredMixin, UpdateView):
-    model = Category
-    fields = ['name']
-
-# Route for 'Deleting Category'
-class DeleteCategory(LoginRequiredMixin, DeleteView):
-    model = Category
-    success_url = '/categories'
-
-# Route for 'Adding Photo' to recipe as owner
-def add_photo(request, recipe_id):
-    photo_file = request.FILES.get('photo-file', None)
-    if photo_file:
-        s3 = boto3.client('s3')
-        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
-        try:
-            bucket = os.environ['S3_BUCKET']
-            s3.upload_fileobj(photo_file, bucket, key)
-            url = f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
-            Photo.objects.create(url=url, recipe_id=recipe_id)
-        except Exception as e:
-            print('An error occurred uploading file to S3')
-            print(e)
-    return redirect('recipe_detail', recipe_id=recipe_id)
 
 # Route for 'Meals'
 @login_required
@@ -113,7 +74,7 @@ def meals_details(request, pk):
 # Route for 'Create Recipe'
 class NewMeal(LoginRequiredMixin, CreateView):
     model = Meal
-    # fields = '__all__'
+    # fields = ['name', 'date', 'meal', 'recipes']
     form_class = MealForm
 
     def form_valid(self, form):

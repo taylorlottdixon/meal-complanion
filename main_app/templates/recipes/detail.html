@@ -32,13 +32,7 @@
     </div>
     <div class="descript-ingredients">
         <h3>Ingredients:</h3>
-        {% if recipe.ingredients.count %}
-            {% for ingredient in recipe.ingredients %}
-                <p>{{ingredient.serving}} {{ingredient.serving_size}} - {{ ingredient.name }}</p>
-            {% endfor %}
-        {% else %}
-            <p>No ingredients added</p>
-        {% endif %}
+        <p>{{ recipe.ingredients }}</p>
     </div>
     <div class="descript-instruct">
         <h3>Instructions:</h3>
