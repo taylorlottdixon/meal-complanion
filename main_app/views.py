@@ -10,8 +10,8 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Recipe, Meal, Tag, Category, Photo, Ingredient
-from .forms import TagForm, MealForm
+from .models import Recipe, Meal, Category, Photo
+from .forms import MealForm
 
 
 
@@ -34,11 +34,11 @@ def recipes_index(request):
 @login_required
 def recipes_details(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
-    tag_ids = recipe.tags.all().values_list('id')
-    tags_available = Tag.objects.exclude(id__in=tag_ids)
+    # tag_ids = recipe.tags.all().values_list('id')
+    # tags_available = Tag.objects.exclude(id__in=tag_ids)
     return render(request, 'recipes/detail.html', {
         'recipe': recipe,
-        'tags': tags_available,
+        # 'tags': tags_available,
     })
 
 # Route for 'Create Recipe'
@@ -100,54 +100,54 @@ def add_photo(request, recipe_id):
     return redirect('recipe_detail', recipe_id=recipe_id)
 
 # Route for 'Tags'
-@login_required
-def tags_index(request):
-    tags = Tag.object.filter(user=request.user)
-    return render(request, 'tags/index.html', {'tags': tags})
+# @login_required
+# def tags_index(request):
+#     tags = Tag.object.filter(user=request.user)
+#     return render(request, 'tags/index.html', {'tags': tags})
 
-# Route for 'Tags Details'
-class TagDetail(LoginRequiredMixin, DetailView):
-    model = Tag
+# # Route for 'Tags Details'
+# class TagDetail(LoginRequiredMixin, DetailView):
+#     model = Tag
 
-# Route for 'Create Tag'
-class NewTag(LoginRequiredMixin, CreateView):
-    model = Tag
-    fields = ['name', 'color']
-    success_url = '/recipes'
+# # Route for 'Create Tag'
+# class NewTag(LoginRequiredMixin, CreateView):
+#     model = Tag
+#     fields = ['name', 'color']
+#     success_url = '/recipes'
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         form.instance.user = self.request.user
+#         return super().form_valid(form)
 
-# Route for 'Updating Tag'
-class UpdateTag(LoginRequiredMixin, UpdateView):
-    model = Tag
-    fields = '__all__'
+# # Route for 'Updating Tag'
+# class UpdateTag(LoginRequiredMixin, UpdateView):
+#     model = Tag
+#     fields = '__all__'
 
-# Route for 'Deleting Tag'
-class DeleteTag(LoginRequiredMixin, DeleteView):
-    model = Tag
+# # Route for 'Deleting Tag'
+# class DeleteTag(LoginRequiredMixin, DeleteView):
+#     model = Tag
 
-# Add new tag from recipe detail
-@login_required
-def add_tag(request, recipe_id):
-  form = TagForm(request.POST)
-  if form.is_valid():
-    new_tag = form.save(commit=False)
-    new_tag.save()
-  return redirect('detail', recipe_id=recipe_id)
+# # Add new tag from recipe detail
+# @login_required
+# def add_tag(request, recipe_id):
+#   form = TagForm(request.POST)
+#   if form.is_valid():
+#     new_tag = form.save(commit=False)
+#     new_tag.save()
+#   return redirect('detail', recipe_id=recipe_id)
 
-# Associate a tag with a recipe
-@login_required
-def assoc_tag(request, recipe_id, tag_id):
-    Recipe.objects.get(id=recipe_id).tags.add(tag_id)
-    return redirect('detail', recipe_id=recipe_id)
+# # Associate a tag with a recipe
+# @login_required
+# def assoc_tag(request, recipe_id, tag_id):
+#     Recipe.objects.get(id=recipe_id).tags.add(tag_id)
+#     return redirect('detail', recipe_id=recipe_id)
 
-# Unassociate a tag from a recipe
-@login_required
-def unassoc_tag(request, recipe_id, tag_id):
-    Recipe.objects.get(id=recipe_id).tags.remove(tag_id)
-    return redirect('detail', recipe_id=recipe_id)
+# # Unassociate a tag from a recipe
+# @login_required
+# def unassoc_tag(request, recipe_id, tag_id):
+#     Recipe.objects.get(id=recipe_id).tags.remove(tag_id)
+#     return redirect('detail', recipe_id=recipe_id)
 
 # Route for 'Meals'
 @login_required
@@ -185,52 +185,52 @@ class DeleteMeal(LoginRequiredMixin, DeleteView):
     success_url = '/meals'
 
 
-# Route for 'Ingredients Details'
-class IngredientDetail(LoginRequiredMixin, DetailView):
-    model = Ingredient
+# # Route for 'Ingredients Details'
+# class IngredientDetail(LoginRequiredMixin, DetailView):
+#     model = Ingredient
 
-# Route for 'Create Ingredient'
-class NewIngredient(LoginRequiredMixin, CreateView):
-    model = Ingredient
-    fields = ['name', 'color']
-    success_url = '/recipes'
+# # Route for 'Create Ingredient'
+# class NewIngredient(LoginRequiredMixin, CreateView):
+#     model = Ingredient
+#     fields = ['name', 'color']
+#     success_url = '/recipes'
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         form.instance.user = self.request.user
+#         return super().form_valid(form)
 
-# Route for 'Updating Ingredient'
-class UpdateIngredient(LoginRequiredMixin, UpdateView):
-    model = Ingredient
-    fields = '__all__'
+# # Route for 'Updating Ingredient'
+# class UpdateIngredient(LoginRequiredMixin, UpdateView):
+#     model = Ingredient
+#     fields = '__all__'
 
-# Route for 'Deleting Ingredient'
-class DeleteIngredient(LoginRequiredMixin, DeleteView):
-    model = Ingredient
+# # Route for 'Deleting Ingredient'
+# class DeleteIngredient(LoginRequiredMixin, DeleteView):
+#     model = Ingredient
 
 
-# Route for 'Ingredients Details'
-class IngredientDetail(LoginRequiredMixin, DetailView):
-    model = Ingredient
+# # Route for 'Ingredients Details'
+# class IngredientDetail(LoginRequiredMixin, DetailView):
+#     model = Ingredient
 
-# Route for 'Create Ingredient'
-class NewIngredient(LoginRequiredMixin, CreateView):
-    model = Ingredient
-    fields = ['name', 'color']
-    success_url = '/recipes'
+# # Route for 'Create Ingredient'
+# class NewIngredient(LoginRequiredMixin, CreateView):
+#     model = Ingredient
+#     fields = ['name', 'color']
+#     success_url = '/recipes'
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         form.instance.user = self.request.user
+#         return super().form_valid(form)
 
-# Route for 'Updating Ingredient'
-class UpdateIngredient(LoginRequiredMixin, UpdateView):
-    model = Ingredient
-    fields = '__all__'
+# # Route for 'Updating Ingredient'
+# class UpdateIngredient(LoginRequiredMixin, UpdateView):
+#     model = Ingredient
+#     fields = '__all__'
 
-# Route for 'Deleting Ingredient'
-class DeleteIngredient(LoginRequiredMixin, DeleteView):
-    model = Ingredient
+# # Route for 'Deleting Ingredient'
+# class DeleteIngredient(LoginRequiredMixin, DeleteView):
+#     model = Ingredient
 
 # Route for user sign up
 def signup(request):
@@ -242,7 +242,7 @@ def signup(request):
             login(request, user)
             return redirect('recipes_index')
     else:
-      error_message = 'Invalid sign up - try again'
+        error_message = 'Invalid sign up - try again'
   # A bad POST or a GET request, so render signup.html with an empty form
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}

@@ -1,11 +1,11 @@
 from django.forms import ModelForm, DateInput
 # from django.admin.forms import ModelMultipleChoiceField
-from .models import Tag, Meal, Recipe
+from .models import Meal
 
-class TagForm(ModelForm):
-  class Meta:
-    model = Tag
-    fields = '__all__'
+# class TagForm(ModelForm):
+#   class Meta:
+#     model = Tag
+#     fields = '__all__'
 
 class MealForm(ModelForm):
   class Meta:
