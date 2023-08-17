@@ -35,4 +35,12 @@ HTML, CSS, Python, and Django
 
 * Make the ingredients and tags feature more intuitive to use
 
+## Trello Board 
+
+[Trello](https://trello.com/b/8bUK4LE2/main-board)
+
+##  Pitch Deck
+
+[Project Pitch Deck](https://docs.google.com/presentation/d/1rF_3IrHqzh_rns9M9ZsMChUe6Vg9QtaRdB0x90YOGGg/edit#slide=id.ge9090756a_1_58)
+
 
