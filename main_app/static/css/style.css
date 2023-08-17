@@ -104,6 +104,7 @@ body {
   background-color: #C1E0B8;
   color: black;
   font-size: 20px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .nav-links {
@@ -264,8 +265,11 @@ img {
 
 .about-section {
   text-align: center;
-  margin-bottom: 50px;
-  font-size: 17px;
+  padding-bottom: 50px;
+  font-size: 22px;
+  font-family: 'Roboto', sans-serif;
+  margin-left: 300px;
+  margin-right: 300px;
 }
 
 .container {
@@ -520,3 +524,27 @@ div.signup >* ul {
   text-align: center;
 }
 
+.team {
+  font-size: 22px;
+  font-family: 'Roboto', sans-serif;
+  text-decoration: underline;
+}
+
+.home-btn {
+  text-align: center;
+  margin: 45px;
+  font-size: 15px;
+  border-radius: 5px;
+  text-transform: uppercase;
+  background-color: #8E8EE6;
+  width: 130px;
+  height: 50px;
+  line-height: 50px;
+  margin-left: 900px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+}
+
+.home-btn:hover {
+  cursor: pointer;
+}
