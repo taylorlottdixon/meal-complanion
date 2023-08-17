@@ -91,7 +91,7 @@ class Recipe(models.Model):
     servings = models.IntegerField('Number of Servings')
     serving_size = models.CharField('Serving Size', max_length=10)
     instructions = RichTextField('Instructions')
-    ingredients = models.TextField('Description', max_length=500)
+    ingredients = models.TextField('Ingredients', max_length=500)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
