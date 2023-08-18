@@ -58,4 +58,4 @@ class Meal(models.Model):
         return reverse("meals_details", kwargs={'pk': self.id})
     
     class Meta:
-        ordering = ['-date']
+        ordering = ['date', "name"]

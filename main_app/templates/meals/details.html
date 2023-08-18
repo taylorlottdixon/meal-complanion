@@ -18,7 +18,7 @@
     </div>
     <div class="mdetails-type">
         <h3>Meal Type:</h3>
-        <p>{{ meal.meal }}</p>
+        <p>{{ meal.get_meal_display }}</p>
     </div>
     <div class="mdetails-user">
         <h3>User</h3>
@@ -42,7 +42,7 @@
     <p>{{ meal.date }}
 
     <h3>Meal Type:</h3>
-    <p>{{ meal.meal }}</p>
+    <p>{{ meal.get_meal_display }}</p>
 
     
 {% endblock %}
